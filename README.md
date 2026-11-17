@@ -8,6 +8,8 @@ The initial set was selected after recovery using only pair IDs and food familie
 
 Feisar: methods, results and worked example. Gabriel: writing and references. Pasquale: applications and conclusions. Leonardo: files, sources and combined tool statement. All authors: your own details and declarations. Use the matching comments or sections in Word.
 
-Product cards retain all 68 exact English LCI Names and AGRIBALYSE codes from the historical workbook; French originals and source rows remain available. Scientific case data, contrasts, Word and the evidence ZIP are unchanged. Manuscript text and response forms have been removed from the page and its review JSON. The site does not read or erase any drafts saved by previous versions in your browser.
+Product cards retain all 68 exact English LCI Names and AGRIBALYSE codes from the historical workbook; French originals and source rows remain available. Scientific case data, contrasts and the evidence ZIP are unchanged. The Word review copy now includes reviewer colours, named colour styles and document-only Track Changes. Manuscript text and response forms have been removed from the page and its review JSON. The site does not read or erase any drafts saved by previous versions in your browser.
 
 The historical study repository remains private. Only the approved cleaned review page and evidence are published. Coauthor approvals remain pending.
+
+Reviewer colours in Word: Feisar purple; Stamatis green; Gabriel blue; Pasquale red; Leonardo orange. Shared tasks and prior editorial marks are grey. The same key is used for comment text, labels and existing review boxes. Comment authors and dates are preserved. There were no retained tracked insertions/deletions to attribute; no historical changes were assigned to a coauthor. Apply your named colour style (Home > Styles) to new manuscript text and reply under your own name. Word may display its own markup colours. See review_colours.json.

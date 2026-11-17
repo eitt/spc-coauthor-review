@@ -1,0 +1,46 @@
+{
+  "palette": {
+    "Feisar": {
+      "colour": "purple",
+      "hex": "6B3FA0",
+      "fill": "F1EAF8"
+    },
+    "Stamatis": {
+      "colour": "green",
+      "hex": "20703C",
+      "fill": "EAF4ED"
+    },
+    "Gabriel": {
+      "colour": "blue",
+      "hex": "1F5AA6",
+      "fill": "EAF0FA"
+    },
+    "Pasquale": {
+      "colour": "red",
+      "hex": "B3261E",
+      "fill": "FBEDEC"
+    },
+    "Leonardo": {
+      "colour": "orange",
+      "hex": "A64B00",
+      "fill": "FFF1E4"
+    },
+    "Shared": {
+      "colour": "grey",
+      "hex": "4B5563",
+      "fill": "F1F3F5"
+    }
+  },
+  "style_names": {
+    "Feisar": "Feisar purple",
+    "Stamatis": "Stamatis green",
+    "Gabriel": "Gabriel blue",
+    "Pasquale": "Pasquale red",
+    "Leonardo": "Leonardo orange",
+    "Shared": "Shared grey"
+  },
+  "scope": "Fixed text styles, comment labels and existing review boxes; assignments are not completed reviews.",
+  "shared": "Grey also marks existing editorial text without per-author revision metadata.",
+  "word_markup_limitation": "Word controls author colours in balloons and tracked-change markup; these can vary between computers. No global application options were changed.",
+  "source": "https://support.microsoft.com/en-us/word/change-the-track-changes-color"
+}
