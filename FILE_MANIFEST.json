@@ -1,0 +1,37 @@
+[
+  {
+    "path": ".nojekyll",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "index.html",
+    "bytes": 1512958,
+    "sha256": "260df51472a127e0b7a888b917c105576a045fe7315df056a8a63e789e30515e"
+  },
+  {
+    "path": "README.md",
+    "bytes": 1450,
+    "sha256": "656d0ba3b12c7884952533d55a50954e9039e53585f23eaae430f917c67bddc0"
+  },
+  {
+    "path": "recovered_evidence.zip",
+    "bytes": 2100750,
+    "sha256": "64dfe84bff9a5c2906dbdd3ecb6a382aec4a0a50d6a52df1ba6ead0d64f53316"
+  },
+  {
+    "path": "review_data.json",
+    "bytes": 2559286,
+    "sha256": "e5dea73978cd137ce70b591b1567695519e90696124f5330d0ff87caa2256718"
+  },
+  {
+    "path": "SPC_manuscript_review.docx",
+    "bytes": 1018606,
+    "sha256": "03db8b1f978816f7bb0705f8ee2fa0c77cdcb453e4b4b49c16a2ea3c3606f436"
+  },
+  {
+    "path": "Supplement_S1.md",
+    "bytes": 15315,
+    "sha256": "94c9d24832910794260239abafbf18c7ae4a4c0791afc9fc1cde5a3991d0b2f7"
+  }
+]
