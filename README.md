@@ -1,16 +1,13 @@
-# Manuscript review
+# Coauthor review
 
-Open https://eitt.github.io/spc-coauthor-review/ and select your name. Read the item, select a decision and add any correction. Copy the reply to the matching Word comment, or download it and return it to Leonardo.
+Open https://eitt.github.io/spc-coauthor-review/ and select your name. Make all corrections in the Word manuscript. The page is a read-only evidence viewer with navigation controls; it has no manuscript extracts, reply fields, approval controls or automatic submissions.
 
-- Feisar: methods, results and worked example.
-- Stamatis: product-pair comparability and reference labels.
-- Gabriel: abstract, introduction, discussion and references.
-- Pasquale: applications, conclusions and limitations.
-- Leonardo: files, source versions and combined tool disclosure.
-- All authors: each author's own details, contributions, funding, interests and tool use.
+Stamatis: compare one pair at a time. Start with the first 10 to check comparison criteria. Use Previous / Next. Choose Remaining 24 or All 34 to continue. The initial ten cover the eight source food families; they are not a statistical validation of all pairs. Full agronomic validation requires a documented review of all 34. Identify observations in Word by both AGRIBALYSE product codes. Check preparation/use comparability separately from the recorded three-impact reference. No pair is removed or corrected automatically.
 
-Product cards show the AGRIBALYSE code and English LCI Name from the historical AGRIBALYSE 3.2 workbook. Original French names and source rows are available in Details and product_names_english.csv. All 68 names were matched by exact code and French name; no newer source was substituted. Scientific case data and results are unchanged.
+The initial set was selected after recovery using only pair IDs and food families, without using model answers or references. The deterministic selection, seed, IDs, coverage and limitations are in review_sample.json. The original 34 study pairs and 102 scenarios are unchanged. This interface adds no experimental observations.
 
-Draft replies remain in the current browser. They are not sent to a server. Download or copy your replies before leaving. Previous browser drafts remain available. No coauthor approval is preselected or submitted automatically.
+Feisar: methods, results and worked example. Gabriel: writing and references. Pasquale: applications and conclusions. Leonardo: files, sources and combined tool statement. All authors: your own details and declarations. Use the matching comments or sections in Word.
 
-The evidence archive and Word file are unchanged from the preceding verified release. The historical study repository remains private. Full personal session histories, credentials and source workbooks are excluded.
+Product cards retain all 68 exact English LCI Names and AGRIBALYSE codes from the historical workbook; French originals and source rows remain available. Scientific case data, contrasts, Word and the evidence ZIP are unchanged. Manuscript text and response forms have been removed from the page and its review JSON. The site does not read or erase any drafts saved by previous versions in your browser.
+
+The historical study repository remains private. Only the approved cleaned review page and evidence are published. Coauthor approvals remain pending.

@@ -6,8 +6,8 @@
   },
   {
     "path": "index.html",
-    "bytes": 1522352,
-    "sha256": "6c6514e1ee5d64a680fceb7836d7c005c8bd7344adac3a1ad51a647c3ca7ce47"
+    "bytes": 1477082,
+    "sha256": "64aea7fbc5f70f968471a3e0e8319171cc310cf4254ca5b793caf75c03197472"
   },
   {
     "path": "product_names_english.csv",
@@ -16,8 +16,8 @@
   },
   {
     "path": "README.md",
-    "bytes": 1416,
-    "sha256": "37c3a10695c2867f8300014ca2dc51542dd1b887eafdd43ae7bfbf5a33c27baa"
+    "bytes": 1985,
+    "sha256": "7452629b59490943f01fc85f6fa11c3561495fff5a79b9704c74bd33673f7195"
   },
   {
     "path": "recovered_evidence.zip",
@@ -26,8 +26,13 @@
   },
   {
     "path": "review_data.json",
-    "bytes": 2571669,
-    "sha256": "22fed82b1fbe0ddee61c84b418e484dd9af34436a4e857b5afbd7ba6cd51cc57"
+    "bytes": 2532589,
+    "sha256": "a4ed1597d5c135cbd640f9323fc885c654c9d61920a4e7bcbb1614f3efa65e84"
+  },
+  {
+    "path": "review_sample.json",
+    "bytes": 7084,
+    "sha256": "e7cde453b1af526dd7f7cd0febf054d4abc5556ac60b6410afec332796f3b829"
   },
   {
     "path": "SPC_manuscript_review.docx",
