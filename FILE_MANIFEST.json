@@ -16,8 +16,8 @@
   },
   {
     "path": "index.html",
-    "bytes": 1763022,
-    "sha256": "3281ae63f8d33768424e417c4b6e717274dee4f3d210885e499410a2f3a31ca2"
+    "bytes": 1763487,
+    "sha256": "6f4ac66bc0213110858a8e2fbd05948c08d262b03766d5ff7cd263434cd43c1c"
   },
   {
     "path": "product_names_english.csv",
@@ -26,8 +26,8 @@
   },
   {
     "path": "README.md",
-    "bytes": 5602,
-    "sha256": "dbf778baef12e2c52e16359de1ed10b69edc0f60afddd9ca1aee058862881e9d"
+    "bytes": 5947,
+    "sha256": "93b36ade3b5f60042e6ad68742b9cefe34dad06b1658a4a88e99ddb8c09dc049"
   },
   {
     "path": "recovered_evidence.zip",
