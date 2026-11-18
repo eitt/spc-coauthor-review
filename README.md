@@ -8,7 +8,7 @@ Stamatis: compare one pair at a time. The first 10 provide an initial criteria c
 
 Feisar can consult methods records, results and the worked case. Leonardo can inspect source files and reproduction instructions. Gabriel, Pasquale and all authors review their assigned text or declarations directly in Word; they may consult the data and cases if needed.
 
-The Word retains all 11 review comments, their authors, dates, IDs, colours and anchors. Six unrelated web-link paragraphs were removed from writing, applications, declarations and tool-use comments. Five evidence links remain explicitly optional. Only word/comments.xml changed; the scientific body, formatting, figures, tables and equations are byte-identical to the approved coloured Word. There is no new scientific result or implied coauthor approval.
+The manuscript is distributed separately by email. This website and its current public package do not include the Word file. Local Word originals and review comments remain preserved. Removal from the current site does not remove historical public commits, prior downloads or caches.
 
 The 102 scenario records, original 34 pairs, initial review set, 68 historical English product names, sources and evidence ZIP are unchanged. No model calls are made by the page. The historical study repository remains private. No previous browser drafts are read or erased. Human scientific review remains pending.
 
