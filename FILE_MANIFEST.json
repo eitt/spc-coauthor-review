@@ -10,9 +10,14 @@
     "sha256": "8f346d2360246f5302e2ff9a6952120cd575a892675c1c9f1748d183c94c5f65"
   },
   {
+    "path": "experiment_workflow.png",
+    "bytes": 680672,
+    "sha256": "17b7194756cbb09ab1a4ef402f1671d5fc80044c6b7e64040ae3e535cd0a0d37"
+  },
+  {
     "path": "index.html",
-    "bytes": 1754464,
-    "sha256": "a9ea44a003004784cd1c5dc21afe5c40924edada78911b0ab519cd184f8f54d7"
+    "bytes": 1763022,
+    "sha256": "3281ae63f8d33768424e417c4b6e717274dee4f3d210885e499410a2f3a31ca2"
   },
   {
     "path": "product_names_english.csv",
@@ -21,8 +26,8 @@
   },
   {
     "path": "README.md",
-    "bytes": 5004,
-    "sha256": "5d80fa01dbd7e86a3e71fbccf55a985b6a8218bd32b8e697044efc9abe952821"
+    "bytes": 5602,
+    "sha256": "dbf778baef12e2c52e16359de1ed10b69edc0f60afddd9ca1aee058862881e9d"
   },
   {
     "path": "recovered_evidence.zip",
