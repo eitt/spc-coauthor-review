@@ -5,9 +5,14 @@
     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   {
+    "path": "comparison_checks.json",
+    "bytes": 421882,
+    "sha256": "8f346d2360246f5302e2ff9a6952120cd575a892675c1c9f1748d183c94c5f65"
+  },
+  {
     "path": "index.html",
-    "bytes": 1478971,
-    "sha256": "49302e9a95f35bef82b0db18123eb75b69d0838d9abae22f79aa620940d8da7e"
+    "bytes": 1730442,
+    "sha256": "395ba497c4d79878a9c9ac93cd824b9817c6817ff034f94ff293e05ef5cd66c5"
   },
   {
     "path": "product_names_english.csv",
@@ -16,8 +21,8 @@
   },
   {
     "path": "README.md",
-    "bytes": 2070,
-    "sha256": "0b5fb70546caac4cbacacb5e62d905ec5093a85c0d38e1bd9161775be825b256"
+    "bytes": 3187,
+    "sha256": "b9e8e62fd367b68acb2c83ec4ff4d1a5066ddf4e8701829c68f3d019bf5f3cda"
   },
   {
     "path": "recovered_evidence.zip",
