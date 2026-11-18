@@ -27,6 +27,9 @@
 
 .mask-help{margin:10px 0 18px;padding:10px 12px;background:#f1f3f5;border-left:3px solid #526570}.mask-help p{margin:0 0 6px}.stage-shown{color:#194d2b;background:#eaf4ed}.stage-hidden{color:#62400f;background:#fff6e8}.design-flow{border-left:3px solid #526570;padding-left:14px;margin:18px 0}.design-flow .panel{box-shadow:none}.design-flow .grid{align-items:stretch}
 
+
+.supply-chain{margin:16px 0}.chain-product{margin:20px 0}.chain-product h4{margin-bottom:4px}.chain-product>p{margin-top:0}.chain-track{display:flex;align-items:stretch;gap:8px;overflow-x:auto;padding:8px 5px 16px;margin:0;list-style:none}.chain-step{display:flex;align-items:center;gap:8px;flex:1 0 132px;min-width:0}.stage-node{display:flex;flex-direction:column;justify-content:space-between;gap:8px;width:100%;min-height:112px;padding:12px 10px;white-space:normal;text-align:left;font:inherit;color:#243e4a;border:2px solid #526570;border-radius:7px;background:#e4edf3;box-shadow:none;cursor:pointer}.stage-node.is-hidden{background:#f8fafb;border:2px dashed #71818b;color:#46535d}.stage-node:hover{background:#d7e5ed}.stage-node.is-hidden:hover{background:#eef2f4}.stage-node[aria-pressed=true]{outline:3px solid #18332c;outline-offset:2px}.stage-node:focus-visible{outline:3px solid #1f5aa6;outline-offset:3px}.stage-state{font-size:.85rem;font-weight:600}.stage-action{font-size:.8rem;text-decoration:underline}.chain-arrow{flex:0 0 auto;color:#526570;font-size:1.25rem}.stage-inspector{padding:16px;background:#f8fafb;border:1px solid #71818b;border-radius:7px}.stage-inspector h4{margin:0 0 6px}.stage-inspector p{overflow-wrap:anywhere}.stage-inspector details{background:#fff}.stage-inspector td{overflow-wrap:anywhere}@media(max-width:650px){.supply-chain{padding:14px}.chain-step{flex-basis:136px}.stage-inspector{padding:12px}}
+
 </style></head>
 <body><a class="skip" href="#content">Skip to review</a><header><h1>Data and case review</h1><p>Select your name. Check data and cases here. Edit the Word file sent by email.</p><div class="actions"><a href="#start" class="button">Review home</a></div><nav id="nav" aria-label="Coauthor"></nav></header>
 <main id="content" tabindex="-1"><div id="view"></div></main><footer>This page displays evidence. Write comments and changes in Word. Coauthor review is pending.</footer>
@@ -58,6 +61,29 @@ function reference(c){let box=panel('Recorded reference');box.append(table(['Ind
 const MASK_OPTIONS=[['0','0 hidden — all 6 stages shown'],['2','2 hidden — 4 stages shown'],['4','4 hidden — 2 stages shown']];
 const DESIGN_PAIRS=['P-384ee988e0a9c069','P-d7a5471cfc4ef3c9'];
 function maskHelp(owner){let box=el('div',undefined,'mask-help');add(box,para('For each product: 0 hides no stages; 2 hides 2 of 6; 4 hides 4 of 6. A hidden stage has all three impact values withheld from the model. Hidden does not mean zero.','small'),link('Experiment explained: what 0, 2 and 4 mean','#design'+(owner?'/'+owner:'')));return box}
+function stageDatum(c,side,stage,impact){let r=c.stages.find(r=>r.side===side&&r.stage===stage&&r.indicator===impact);let numeric=r&&(typeof r.value==='number'||typeof r.value==='string'&&r.value.trim()!=='')&&Number.isFinite(Number(r.value));return numeric&&r.unit===c.reference.units[impact]?String(r.value):'Unavailable in the retained record'}
+function supplyChain(c){
+ let root=panel('Environmental stage data shown to the model');root.className+=' supply-chain';root.setAttribute('data-chain-case',c.case_id);
+ if(!['A','B'].every(side=>Array.isArray(c.hidden[side]))){root.append(para('Stage-visibility record unavailable.'));return root}
+ add(root,para('Case '+c.case_id+' · '+c.mask+' hidden and '+(6-Number(c.mask))+' shown in each product.','code'),para('Select a stage to see its recorded input values. Pale, dashed stages were not shown to the model.','instruction'),para('Arrows show the reading order of the six recorded stages. This is a schematic overview.','small muted'));
+ let buttons=[],inspector=el('section',undefined,'stage-inspector');inspector.setAttribute('id','stage-input-'+c.case_id);inspector.setAttribute('aria-live','polite');inspector.setAttribute('aria-atomic','true');
+ for(const side of ['A','B']){
+  let product=c.products[side],row=el('section',undefined,'chain-product'),track=el('ol',undefined,'chain-track');track.setAttribute('aria-label','Product '+side+' stages');add(row,el('h4','Product '+side+' · AGRIBALYSE '+product.product_id),para(product.name_en));
+  for(const [index,stage] of Object.keys(STAGES).entries()){
+   let hidden=c.hidden[side].includes(stage),step=el('li',undefined,'chain-step'),node=btn('',()=>inspect(side,stage),'stage-node '+(hidden?'is-hidden':'is-shown'));node.setAttribute('data-chain-side',side);node.setAttribute('data-chain-stage',stage);node.setAttribute('aria-controls','stage-input-'+c.case_id);node.setAttribute('aria-pressed','false');node.setAttribute('aria-label','Product '+side+', '+STAGES[stage]+', '+(hidden?'not shown to the model':'shown to the model')+'. Show stage data.');add(node,el('strong',STAGES[stage]),el('span',hidden?'Not shown':'Shown','stage-state'),el('span','View data','stage-action'));step.append(node);buttons.push({node,side,stage});if(index<5){let arrow=el('span','→','chain-arrow');arrow.setAttribute('aria-hidden','true');step.append(arrow)}track.append(step);
+  }row.append(track);root.append(row);
+ }
+ const inspect=(side,stage)=>{
+  for(const b of buttons)b.node.setAttribute('aria-pressed',b.side===side&&b.stage===stage?'true':'false');
+  let hidden=c.hidden[side].includes(stage),product=c.products[side];inspector.replaceChildren();inspector.setAttribute('data-chain-selection',side+'|'+stage);
+  add(inspector,el('h4','Product '+side+' · AGRIBALYSE '+product.product_id+' · '+STAGES[stage]),para(product.name_en),para(hidden?'Not shown to the model. All three values at this stage were withheld.':'These three stage values were shown to the model.','instruction'));
+  let input=table(['Indicator','Unit','Input shown to the model'],Object.keys(I).map(k=>[I[k],U[k],hidden?'Not shown to the model':stageDatum(c,side,stage,k)]));input.setAttribute('data-stage-input','true');inspector.append(input);
+  let source=detail('Full source values',para('Includes any values withheld from this model input. Shown here for review.'),table(['Indicator','Unit','Retained source value'],Object.keys(I).map(k=>[I[k],U[k],stageDatum(c,side,stage,k)])));source.setAttribute('data-stage-source','true');inspector.append(source);
+ };
+ root.append(inspector);inspect('A',Object.keys(STAGES).find(stage=>c.hidden.A.includes(stage))||Object.keys(STAGES)[0]);
+ root.append(para('This diagram covers environmental stage values. The model also received instructions and corpus examples; follow-ups also received the initial answer.','small muted'));return root;
+}
+
 function stageAvailability(c){
  let w=el('div',undefined,'table-wrap'),t=el('table'),head=el('thead'),r=el('tr');t.append(el('caption','Each status applies to all three impact values at that stage.'));
  for(const title of ['Stage','Product A','Product B']){let th=el('th',title);th.scope='col';r.append(th)}head.append(r);t.append(head);
@@ -69,7 +95,7 @@ function experimentDesign(from){
  let levels=panel('What do 0, 2 and 4 mean?');add(levels,table(['Setting','Stages shown per product','Stages hidden per product'],[['0 hidden',6,0],['2 hidden',4,2],['4 hidden',2,4]]),para('The two foods and the three indicators stay the same. Withholding one stage removes its three impact values from the model input. The source data are retained. Hidden does not mean zero.'),para('The six stages are agriculture, processing, packaging, transport, distribution and consumption. At level 0 there are no hidden stages to estimate.'),para('The two stages hidden at level 2 remain hidden at level 4, with two more added. The hidden stages can differ between A and B.'));V.append(levels);
  let example=panel('Explore two recovered examples'),choices=DESIGN_PAIRS.map(id=>{let c=D.cases.find(c=>c.pair_id===id&&c.mask==='0');return[id,'AGRIBALYSE '+c.product_A_id+' / '+c.product_B_id]}),pair=select('Example pair',choices,DESIGN_PAIRS[0],'design-pair'),level=select('Hidden stages in each product',MASK_OPTIONS,'2','design-mask'),body=el('div');body.setAttribute('aria-live','polite');
  add(example,para('Changing the level loads an existing case. Use these examples to understand the information given to the model.'),add(el('div',undefined,'chart-controls'),pair.label,level.label),body);
- const draw=()=>{let c=D.cases.find(c=>c.pair_id===pair.input.value&&c.mask===level.input.value);body.replaceChildren();body.setAttribute('data-design-case',c.case_id);add(body,para('A · AGRIBALYSE '+c.product_A_id+': '+c.products.A.name_en),para('B · AGRIBALYSE '+c.product_B_id+': '+c.products.B.name_en),para((6-Number(c.mask))+' stages shown and '+c.mask+' hidden in each product.','instruction'),stageAvailability(c));
+ const draw=()=>{let c=D.cases.find(c=>c.pair_id===pair.input.value&&c.mask===level.input.value);body.replaceChildren();body.setAttribute('data-design-case',c.case_id);add(body,supplyChain(c),detail('Stage availability table',stageAvailability(c)));
   let rows=[['Recorded reference',R[c.reference.relation],'Reference for all three levels']];for(const role of ['A10','A11','CONTROL_2PASS']){let r=c.responses.find(r=>r.workflow===role);if(!r){let unscheduled=role==='CONTROL_2PASS'&&(c.control_assigned===false||c.control_assigned==='False');rows.push([ROLES[role],unscheduled?'Not scheduled for this pair':'Expected saved answer is missing','—']);continue}rows.push([ROLES[role],r.status==='VALID'?R[r.predicted_relation]:STATUS[r.status]||r.status,r.status==='VALID'?(r.predicted_relation===c.reference.relation?'Same label as the reference':'Different label from the reference'):'No valid final answer'])}
   add(body,detail('Saved labels for this example',para('These labels come from the recovered records. A valid response format can still give a different label from the reference.'),table(['Record','Saved label or status','Comparison with reference'],rows)),para('Case: '+c.case_id,'code'),link('View this saved case and its answers','#cases/'+c.case_id,'button'));
  };pair.input.onchange=draw;level.input.onchange=draw;draw();V.append(example);
@@ -112,6 +138,7 @@ function comparisonCharts(c,requestedMask){
   mask.input.disabled=mode.input.value==='REFERENCE';let x=D.cases.find(x=>x.pair_id===c.pair_id&&x.mask===mask.input.value),bundle=CHECKS.cases[x.case_id],result=mode.input.value==='REFERENCE'?bundle.reference:bundle.responses[mode.input.value];
   body.replaceChildren();body.setAttribute('data-chart-case',x.case_id);body.setAttribute('data-chart-role',mode.input.value);
   add(body,para('A '+x.product_A_id+' versus B '+x.product_B_id+' · '+(mode.input.value==='REFERENCE'?'Complete-stage source profile':ROLES[mode.input.value]+' · '+mask.input.value+' stages hidden per product'),'small muted'));
+  add(body,detail('Stage input diagram — '+x.mask+' hidden in each product',supplyChain(x)));
   if(!bundle.reference.assessable){body.append(checkNote('Reference check unavailable: '+bundle.reference.issues.join('; ')+'.','error'));return}
   if(!bundle.reference.recorded_label_matches)body.append(checkNote('Reference record mismatch: the saved label differs from its values. Check the source record.','error'));
   if(!result){let unscheduled=mode.input.value==='CONTROL_2PASS'&&(x.control_assigned===false||x.control_assigned==='False');body.append(checkNote(unscheduled?'No neutral second answer was scheduled for this pair.':'An expected saved answer is missing. Check the original execution record.',unscheduled?'info':'error'));return}
@@ -151,7 +178,7 @@ const HELP={
  stamatis:[
   'Open Compare products. Choose First 10 pairs, Remaining 24 pairs or All 34 pairs in Review set. Use Previous and Next to move one pair at a time.',
   'Start with Complete published profile. Check both product codes, preparation and the per-kilogram basis. Read each of the three impacts separately.',
-  'Use Values to compare to display a saved answer. Hidden stages applies only to saved answers: 0 hides none, 2 hides two stages and 4 hides four stages in each product. Read Experiment explained for examples. These controls display existing records.',
+  'Use Values to compare to display a saved answer. Hidden stages applies only to saved answers: 0 hides none, 2 hides two stages and 4 hides four stages in each product. Open Stage input diagram to inspect each stage, or Experiment explained for examples. These controls display existing records.',
   'Read the alerts. They flag numerical differences, inconsistent labels or unavailable data. They do not decide whether the products are suitable to compare.',
   'Record issues in the Word file received by email. Include both product codes and, for a saved answer, the answer type and hidden-stage setting. The first 10 pairs are an initial check; full validation requires all 34.'
  ],
