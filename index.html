@@ -22,6 +22,8 @@
 .comparison-panel p{overflow-wrap:anywhere}
 .comparison-panel .beyond{color:#62400f;background:#fff6e8;padding:6px 8px;border-left:3px solid #8a5a16}
 
+
+.panel ol{padding-left:1.5rem}.panel li{margin:0 0 12px;line-height:1.6}
 </style></head>
 <body><a class="skip" href="#content">Skip to review</a><header><h1>Data and case review</h1><p>Select your name. Check data and cases here. Edit the Word file sent by email.</p><div class="actions"><a href="#start" class="button">Review home</a></div><nav id="nav" aria-label="Coauthor"></nav></header>
 <main id="content" tabindex="-1"><div id="view"></div></main><footer>This page displays evidence. Write comments and changes in Word. Coauthor review is pending.</footer>
@@ -103,6 +105,7 @@ function comparisonCharts(c,requestedMask){
 
 function pairs(pairid,requestedScope,mask){let scope=['initial','remaining','all'].includes(requestedScope)?requestedScope:'initial';if(pairid&&!pairSet(scope).some(c=>c.pair_id===pairid))scope='all';let list=pairSet(scope),at=Math.max(0,list.findIndex(c=>c.pair_id===pairid)),c=list[at];
  add(V,el('h2','Stamatis'),para('Compare preparation and food use per kilogram. Check the recorded reference. Write corrections in Word using the product codes.','instruction'),para('Start with 10 pairs to check the criteria. Full validation requires reviewing all 34.','notice'));
+ subnav('stamatis',[['how','How to use'],['review','Compare products']],'review');
  let mode=select('Review set',[['initial','First 10 pairs'],['remaining','Remaining 24 pairs'],['all','All 34 pairs']],scope,'review-set');mode.input.onchange=()=>{let ids=pairSet(mode.input.value);location.hash=pairHash(ids.some(x=>x.pair_id===c.pair_id)?c.pair_id:ids[0].pair_id,mode.input.value)};
  let position=para('Pair '+(at+1)+' of '+list.length+' in this set.','step');position.setAttribute('role','status');position.setAttribute('aria-live','polite');
  let back=btn('Previous',()=>{location.hash=pairHash(list[at-1].pair_id,scope)}),next=btn('Next',()=>{location.hash=pairHash(list[at+1].pair_id,scope)},'primary');back.disabled=at===0;next.disabled=at===list.length-1;
@@ -111,20 +114,58 @@ function pairs(pairid,requestedScope,mask){let scope=['initial','remaining','all
  if(scope==='initial'&&at===list.length-1)add(V,link('Continue with the remaining 24 pairs',pairHash(D.review_sample.remaining_pair_ids[0],'remaining'),'button primary'),para('Moving through the page does not record a review. Record your findings in Word.','small muted'));
  add(V,detail('About the first 10 pairs',para('Selected now from product information to cover all eight food families. Model answers and reference values were not used for selection. This is an initial check, not a statistical validation of all pairs.'),link('Selection and coverage','review_sample.json')));
 }
-function feisar(item){if(!['methods','results','worked'].includes(item))item='methods';add(V,el('h2','Feisar'),para('Check the methods, results and worked example against the records.','instruction'));subnav('feisar',[['methods','Methods'],['results','Results'],['worked','Worked example']],item);
+const HELP={
+ feisar:[
+  'Open Methods, Results or Worked example. Expand a section to see the records.',
+  'Use Download evidence if you need the source files or reproduction materials.',
+  'Compare the records with the Word file received by email. Report mismatches in your assigned comments. Include case or product codes where relevant.'
+ ],
+ stamatis:[
+  'Open Compare products. Choose First 10 pairs, Remaining 24 pairs or All 34 pairs in Review set. Use Previous and Next to move one pair at a time.',
+  'Start with Complete published profile. Check both product codes, preparation and the per-kilogram basis. Read each of the three impacts separately.',
+  'Use Values to compare to display a saved answer. Hidden stages applies only to saved answers; choose 0, 2 or 4. These controls display existing records.',
+  'Read the alerts. They flag numerical differences, inconsistent labels or unavailable data. They do not decide whether the products are suitable to compare.',
+  'Record issues in the Word file received by email. Include both product codes and, for a saved answer, the answer type and hidden-stage setting. The first 10 pairs are an initial check; full validation requires all 34.'
+ ],
+ gabriel:[
+  'Open the Word file received by email. Review your assigned comments and edit the text there.',
+  'For supporting data, open Feisar — Results. For source names and versions, open Leonardo — Sources.',
+  'Write corrections and replies in Word.'
+ ],
+ pasquale:[
+  'Open the Word file received by email. Review your assigned comments and edit the text there.',
+  'Use Feisar — Results or Stamatis — Compare products when you need to check a claim against the recorded data.',
+  'Write corrections and replies in Word.'
+ ],
+ leonardo:[
+  'Open Files for Supplement S1 and the Evidence archive. Download and unzip the archive if you need its individual records.',
+  'Open Sources for English product names, source versions and hashes. Match products by their codes.',
+  'Open Tool statement for the reminder. Complete that statement in the Word file received by email.',
+  'Report file or source issues in your assigned Word comments. Include the file name and the relevant row or page where available.'
+ ],
+ all:[
+  'Open the Word file received by email.',
+  'Check your assigned comments about author details and declarations. Complete or correct your own information in Word.',
+  'Use the other profiles only when you need supporting data. Write your replies in Word.'
+ ]
+};
+function usage(owner){let box=panel('How to use this page'),steps=el('ol');for(const text of HELP[owner])steps.append(el('li',text));add(box,steps,para('The page does not save comments or approvals. Use the Word file received by email.','small muted'));V.append(box)}
+function stamatis(item,scope,mask){if(item==='how'){V.append(el('h2','Stamatis'));subnav('stamatis',[['how','How to use'],['review','Compare products']],'how');usage('stamatis');return}pairs(item==='review'?undefined:item,scope,mask)}
+
+function feisar(item){if(!['how','methods','results','worked'].includes(item))item='methods';add(V,el('h2','Feisar'),para('Check the methods, results and worked example against the records.','instruction'));subnav('feisar',[['how','How to use'],['methods','Methods'],['results','Results'],['worked','Worked example']],item);if(item==='how'){usage('feisar');return}
  if(item==='methods')add(V,wordTask('Methods','Check the implementation against the recovered records. Make all manuscript comments in Word.'),detail('Evidence files',para('Extract the evidence archive. Compare run_records/cases.jsonl, run_records/reference.jsonl and repository/prompts.json with the methods.'),link('Download evidence','recovered_evidence.zip')));
  if(item==='results'){let c=panel('Recorded results');add(c,table(['Procedure','Scheduled','Valid','Errors or unavailable results'],[['Initial answer',102,101,30],['After review',102,99,32],['Median baseline',102,102,35],['Neutral second answer',72,69,27]]),para('Five timeouts and two skipped second passes are included. The neutral comparison uses 24 pairs; the main comparison uses 34.','small'),table(['Comparison','Pairs','Difference (percentage points)','95% conservative interval','95% bootstrap interval'],D.contrasts.map(r=>[r.contrast.split('_minus_').map(x=>ROLES[x]).join(' minus '),r.pairs,Number(r.mean_difference_pp).toFixed(2),'['+Number(r.conservative_lower_pp).toFixed(2)+', '+Number(r.conservative_upper_pp).toFixed(2)+']','['+Number(r.bootstrap_lower_pp).toFixed(2)+', '+Number(r.bootstrap_upper_pp).toFixed(2)+']'])),para('Positive values mean more errors or unavailable results for the first procedure.','small'));add(V,wordTask('Results','Check counts, failures, uncertainty intervals and token use. Record any mismatch in Word.'),c,detail('Reproduce the results',para('Extract the evidence archive and run:'),el('pre','python reproduce_from_records.py'),link('Download evidence','recovered_evidence.zip')))}
  if(item==='worked'){let c=D.cases.find(x=>x.case_id==='P-384ee988e0a9c069-M2');add(V,wordTask('Worked example','Check the tuna–sardine example against the records below.'),para('Selected after the results were known to illustrate an error. It is not a representative example.','notice'),add(el('div',undefined,'grid'),product(c,'A'),product(c,'B')),reference(c),records(c))}}
-function gabriel(){add(V,el('h2','Gabriel'),wordTask('Writing and references','Review your assigned items directly in Word. This site is for supporting data, cases and records.'))}
-function pasquale(){add(V,el('h2','Pasquale'),wordTask('Applications and conclusions','Review your assigned items directly in Word. This site is for supporting data, cases and records.'))}
-function leonardo(item){if(!['files','sources','tools'].includes(item))item='files';add(V,el('h2','Leonardo'));subnav('leonardo',[['files','Files'],['sources','Sources'],['tools','Tool statement']],item);
+function gabriel(item){V.append(el('h2','Gabriel'));subnav('gabriel',[['how','How to use'],['review','Word review']],item==='how'?'how':'review');if(item==='how'){usage('gabriel');return}V.append(wordTask('Writing and references','Review your assigned items directly in Word. This site is for supporting data, cases and records.'))}
+function pasquale(item){V.append(el('h2','Pasquale'));subnav('pasquale',[['how','How to use'],['review','Word review']],item==='how'?'how':'review');if(item==='how'){usage('pasquale');return}V.append(wordTask('Applications and conclusions','Review your assigned items directly in Word. This site is for supporting data, cases and records.'))}
+function leonardo(item){if(!['how','files','sources','tools'].includes(item))item='files';add(V,el('h2','Leonardo'));subnav('leonardo',[['how','How to use'],['files','Files'],['sources','Sources'],['tools','Tool statement']],item);if(item==='how'){usage('leonardo');return}
  if(item==='files')add(V,wordTask('Files and access','Open the files and check that the reproduction instructions work. Correct access instructions in Word.'),add(el('div',undefined,'actions'),link('Supplement S1','Supplement_S1.md','button'),link('Evidence archive','recovered_evidence.zip','button')));
  if(item==='sources')add(V,wordTask('Sources','Check source versions, hashes and citations against source_data_manifest.json in the evidence archive.'),link('English names and source rows','product_names_english.csv'),detail('English-name source',el('pre',JSON.stringify(D.product_name_source,null,2))));
  if(item==='tools')V.append(wordTask('Tool-use statement','Complete the tool-use statement directly in Word. Use the records here only as supporting evidence.'))}
-function allAuthors(){add(V,el('h2','All authors'),wordTask('Your details and declarations','Complete your details and declarations directly in the Word comments.'),para('Pasquale: include any editorial role.','small'))}
-function start(){add(V,el('h2','Choose your name'),para('Use the tabs above. Edit the Word file directly.','instruction'));let c=panel();c.append(table(['Reviewer','Check in Word'],[['Feisar','Methods, results and worked example'],['Stamatis','Product comparisons and recorded references'],['Gabriel','Word comments'],['Pasquale','Word comments'],['Leonardo','Files, sources and tool statement'],['All authors','Word comments']]));V.append(c)}
+function allAuthors(item){V.append(el('h2','All authors'));subnav('all',[['how','How to use'],['review','Word review']],item==='how'?'how':'review');if(item==='how'){usage('all');return}add(V,wordTask('Your details and declarations','Complete your details and declarations directly in the Word comments.'),para('Pasquale: include any editorial role.','small'))}
+function start(){add(V,el('h2','Choose your name'),para('Select your name. Open How to use for the steps.','instruction'));let c=panel();c.append(table(['Reviewer','Check in Word'],[['Feisar','Methods, results and worked example'],['Stamatis','Product comparisons and recorded references'],['Gabriel','Word comments'],['Pasquale','Word comments'],['Leonardo','Files, sources and tool statement'],['All authors','Word comments']]));V.append(c)}
 function route(){let parts=location.hash.slice(1).split('/'),owner=parts[0]||'start',item=parts[1],scope=parts[2],mask=parts[3];if(owner==='content'){if(V.children.length){document.getElementById('content').focus();return}owner='start'};
  const old={methods:['feisar','methods'],results:['feisar','results'],worked:['feisar','worked'],writing:['gabriel'],applications:['pasquale'],data:['leonardo','files'],declarations:['all'],funding:['all'],interests:['all'],authors:['all'],tools:['all'],pairs:['stamatis']};if(old[owner]){[owner,item]=old[owner]}if(owner==='cases'){let c=D.cases.find(c=>c.case_id===item);owner='stamatis';item=c?.pair_id;mask=c?.mask;scope='all'};
- V.replaceChildren();V.setAttribute('data-owner',OWNERS.some(x=>x[0]===owner)?owner:'all');let nav=document.getElementById('nav');nav.replaceChildren();OWNERS.forEach(([key,label])=>{let a=link(label,'#'+key,owner===key?'active':'');a.setAttribute('data-owner',key);a.append(el('span',COLOURS[key].colour.charAt(0).toUpperCase()+COLOURS[key].colour.slice(1),'colour-name'));if(owner===key)a.setAttribute('aria-current','page');nav.append(a)});({feisar:()=>feisar(item),stamatis:()=>pairs(item,scope,mask),gabriel,pasquale,leonardo:()=>leonardo(item),all:allAuthors,start}[owner]||start)();window.scrollTo(0,0)}
+ V.replaceChildren();V.setAttribute('data-owner',OWNERS.some(x=>x[0]===owner)?owner:'all');let nav=document.getElementById('nav');nav.replaceChildren();OWNERS.forEach(([key,label])=>{let a=link(label,'#'+key,owner===key?'active':'');a.setAttribute('data-owner',key);a.append(el('span',COLOURS[key].colour.charAt(0).toUpperCase()+COLOURS[key].colour.slice(1),'colour-name'));if(owner===key)a.setAttribute('aria-current','page');nav.append(a)});({feisar:()=>feisar(item),stamatis:()=>stamatis(item,scope,mask),gabriel:()=>gabriel(item),pasquale:()=>pasquale(item),leonardo:()=>leonardo(item),all:()=>allAuthors(item),start}[owner]||start)();window.scrollTo(0,0)}
 window.addEventListener('hashchange',()=>{route();document.getElementById('content').focus({preventScroll:true})});route();
 </script></body></html>
